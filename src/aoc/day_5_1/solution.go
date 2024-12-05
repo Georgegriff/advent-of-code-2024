@@ -24,9 +24,10 @@ func parseUpdate(
 	}
 }
 
-func main() {
-	// file := readfile.Open("./test.txt")
-	file := readfile.Open("./input.txt")
+func Solve(
+	path string,
+) int {
+	file := readfile.Open(path)
 	defer file.Close()
 	sum := 0
 	rules := make(map[string]bool)
@@ -49,9 +50,13 @@ func main() {
 		return nil
 	})
 
-	fmt.Printf("The answer is %v\n", sum)
-
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	return sum
+}
+
+func main() {
+	fmt.Printf("The answer is %v\n", Solve("./input.txt"))
 }
