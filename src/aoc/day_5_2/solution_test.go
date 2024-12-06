@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func TestInput(t *testing.T) {
+func TestSolve(t *testing.T) {
 	solution := Solve("./test.txt")
 	expected := 123
 
