@@ -9,20 +9,23 @@ func Solve(
 ) int {
 
 	puzzleMap := LoadMap(path)
-	guard := puzzleMap.Guard
 	var cycles map[*Coordinate]bool = make(map[*Coordinate]bool)
-	startPosition := guard.Position
-	startDirection := guard.Direction
+	// startPosition := guard.Position
+	// startDirection := guard.Direction
 
-	for _, row := range puzzleMap.coordinates {
-		for _, coord := range row {
-			guard := NewGuard(startPosition, startDirection)
+	for i, row := range puzzleMap.coordinates {
+		for j := range row {
+			puzzleMap = LoadMap(path)
+			coord := puzzleMap.coordinates[i][j]
+			guard := puzzleMap.Guard
 			if !coord.Obstacle && coord.Guard == nil {
 				coord.Obstacle = true
 				// todo need to prevent cycles now
 				completed, err := guard.CompletePatrol(puzzleMap)
 				if !completed && err != nil {
 					cycles[coord] = true
+					puzzleMap.PrintMapState()
+
 				}
 				coord.Obstacle = false
 			}
@@ -36,5 +39,5 @@ func Solve(
 }
 
 func main() {
-	fmt.Printf("The answer is %v\n", Solve("./input.txt"))
+	fmt.Printf("\nThe answer is %d\n", Solve("./test.txt"))
 }

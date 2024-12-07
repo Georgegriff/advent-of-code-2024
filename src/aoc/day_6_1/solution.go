@@ -19,5 +19,5 @@ func Solve(
 }
 
 func main() {
-	fmt.Printf("\nThe answer is %v\n", Solve("./test.txt"))
+	fmt.Printf("\nThe answer is %v\n", Solve("./input.txt"))
 }

@@ -12,18 +12,30 @@ type Map struct {
 	Guard       *Guard
 }
 
+func (m *Map) MoveCursorUp() {
+	for i := 0; i < len(m.coordinates); i++ {
+		fmt.Print("\033[A\033[K") // Move up one line and clear it
+	}
+}
+
+var purple = "\033[35m" // Purple
+var green = "\033[32m"  // Green
+var red = "\033[31m"    // Red
+var yellow = "\033[33m" // Yellow
+var reset = "\033[0m"   // Reset
+
 func (m Map) String() string {
-	mapPrinter := ""
+	mapPrinter := "\n"
 	for i, row := range m.coordinates {
 		for _, coord := range row {
 			if coord.Obstacle {
-				mapPrinter += "#"
+				mapPrinter += (red + "#" + reset)
 			} else if coord.Guard != nil {
-				mapPrinter += fmt.Sprint(coord.Guard)
+				mapPrinter += (purple + fmt.Sprint(coord.Guard)) + reset
 			} else if coord.Visited {
-				mapPrinter += "X"
+				mapPrinter += (yellow + getVisitText(coord) + reset)
 			} else {
-				mapPrinter += "."
+				mapPrinter += (green + "." + reset)
 			}
 		}
 		if i != len(m.coordinates)-1 {
@@ -33,12 +45,29 @@ func (m Map) String() string {
 	return mapPrinter
 }
 
+func (m *Map) PrintMapState() {
+	// m.MoveCursorUp()
+	fmt.Print(m)
+	// time.Sleep(1 * time.Millisecond)
+}
+
+func getVisitText(c *Coordinate) string {
+	if c.VisitedType == HORIZONTAL {
+		return "\u254C"
+	} else if c.VisitedType == VERTICAL {
+		return "\u2506"
+	} else {
+		return "+"
+	}
+}
+
 type Coordinate struct {
-	X        int
-	Y        int
-	Guard    *Guard
-	Obstacle bool
-	Visited  bool
+	X           int
+	Y           int
+	Guard       *Guard
+	Obstacle    bool
+	Visited     bool
+	VisitedType VisitDirection
 }
 
 func NewCoordinate(value string, x int, y int) *Coordinate {
@@ -91,4 +120,17 @@ func LoadMap(path string) *Map {
 		coordinates: coordinates,
 		Guard:       guard,
 	}
+}
+
+// Direction represents the direction enum
+type VisitDirection int
+
+const (
+	HORIZONTAL VisitDirection = iota
+	VERTICAL
+	BOTH
+)
+
+func (d VisitDirection) String() string {
+	return [...]string{"HORIZONTAL", "VERTICAL", "BOTH"}[d]
 }

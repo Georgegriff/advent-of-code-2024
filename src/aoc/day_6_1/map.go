@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"time"
 )
 
 type Map struct {
@@ -49,7 +48,7 @@ func (m Map) String() string {
 func (m *Map) PrintMapState() {
 	m.MoveCursorUp()
 	fmt.Print(m)
-	time.Sleep(150 * time.Millisecond)
+	// time.Sleep(10 * time.Millisecond)
 }
 
 func getVisitText(c *Coordinate) string {
