@@ -10,6 +10,8 @@ func Solve(
 
 	puzzleMap := LoadMap(path)
 	guard := puzzleMap.Guard
+	fmt.Println("Guard patrol:")
+	fmt.Print(puzzleMap)
 	guard.CompletePatrol(puzzleMap)
 
 	return len(guard.VisitedCoordinates)
@@ -17,5 +19,5 @@ func Solve(
 }
 
 func main() {
-	fmt.Printf("The answer is %v\n", Solve("./input.txt"))
+	fmt.Printf("\nThe answer is %v\n", Solve("./test.txt"))
 }

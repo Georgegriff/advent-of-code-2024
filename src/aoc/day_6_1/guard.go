@@ -14,6 +14,11 @@ type Guard struct {
 
 func NewGuard(position *Coordinate, direction GuardDirection) *Guard {
 	position.Visited = true
+	if direction == NORTH || direction == SOUTH {
+		position.VisitedType = VERTICAL
+	} else {
+		position.VisitedType = HORIZONTAL
+	}
 	return &Guard{
 		Position:           position,
 		Direction:          direction,
@@ -37,13 +42,14 @@ func (g *Guard) TurnRight() {
 }
 
 func (g *Guard) CompletePatrol(patrolMap *Map) (bool, error) {
-	newCoordinate, err := g.MoveToNextObstacle(patrolMap)
+	newCoordinate, _ := g.MoveToNextObstacle(patrolMap)
 	if newCoordinate == nil {
-		log.Println(err)
+		// log.Println(err)
 		// map is completed
 		return true, nil
 	}
 	g.TurnRight()
+	patrolMap.PrintMapState()
 	return g.CompletePatrol(patrolMap)
 
 }
@@ -90,6 +96,7 @@ func (g *Guard) MoveToNextObstacle(patrolMap *Map) (*Coordinate, error) {
 		return g.Position, nil
 	}
 	g.visit(nextCoordinate)
+	patrolMap.PrintMapState()
 	return g.MoveToNextObstacle(patrolMap)
 }
 
@@ -102,6 +109,17 @@ func (g *Guard) visit(c *Coordinate) {
 	if currentPosition != nil {
 		currentPosition.Guard = nil
 	}
+	var visitType VisitDirection
+	if g.Direction == NORTH || g.Direction == SOUTH {
+		visitType = VERTICAL
+	} else {
+		visitType = HORIZONTAL
+	}
+
+	if c.Visited && visitType != c.VisitedType {
+		visitType = BOTH
+	}
+	c.VisitedType = visitType
 	c.Guard = g
 	g.Position = c
 	c.Visited = true
@@ -130,13 +148,13 @@ const (
 func (d GuardDirection) String() string {
 	switch d {
 	case NORTH:
-		return "^"
+		return "\u2191" // ↑
 	case EAST:
-		return ">"
+		return "\u2192" // ↓
 	case SOUTH:
-		return "v"
+		return "\u2193" // →
 	case WEST:
-		return "<"
+		return "\u2190" // ←
 	default:
 		return "[INVALID]"
 	}
