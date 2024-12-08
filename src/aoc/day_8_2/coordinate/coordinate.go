@@ -56,7 +56,7 @@ func (coord *Coordinate) HasAntenna() bool {
 	return string(coord.AntennaType) != ""
 }
 
-func (coord *Coordinate) CalculateAntinodePoints(other *Coordinate, yMax int, xMax int) []Coordinate {
+func (coord *Coordinate) FindAllPointsOnGridLine(other *Coordinate, yMax int, xMax int) []Coordinate {
 	var points []Coordinate
 
 	distance := coord.getDistanceVector(other, 1)

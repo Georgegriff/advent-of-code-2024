@@ -20,7 +20,7 @@ func Solve(
 				if i != j {
 					coord := coordinatesForType[i]
 					other := coordinatesForType[j]
-					points := coord.CalculateAntinodePoints(other, yMax, xMax)
+					points := coord.FindAllPointsOnGridLine(other, yMax, xMax)
 					grid.AddAntinodeToCoordinates(points)
 				}
 			}

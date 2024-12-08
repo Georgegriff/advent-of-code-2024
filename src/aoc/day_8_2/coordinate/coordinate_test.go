@@ -28,14 +28,14 @@ func TestGetDistanceVector(t *testing.T) {
 	testutils.ExpectToMatchInt(t, distanceTwo.Y, -2)
 }
 
-func TestCalculateAntinodePoints(t *testing.T) {
+func TestFindAllPointsOnGridLine(t *testing.T) {
 	xMax := 11
 	yMax := 11
 
 	one := NewCoordinate("A", 8, 8)
 	two := NewCoordinate("A", 9, 9)
 
-	points := one.CalculateAntinodePoints(two, xMax, yMax)
+	points := one.FindAllPointsOnGridLine(two, xMax, yMax)
 	testutils.ExpectToMatchInt(t, len(points), 12)
 
 	// this line should be drawn from top left diagonal to the other for bcased on the input coordinations
@@ -46,14 +46,14 @@ func TestCalculateAntinodePoints(t *testing.T) {
 
 }
 
-func TestCalculateAntinodePoints2(t *testing.T) {
+func TestFindAllPointsOnGridLine2(t *testing.T) {
 	xMax := 11
 	yMax := 11
 
 	one := NewCoordinate("A", 5, 2)
 	two := NewCoordinate("A", 4, 4)
 
-	points := one.CalculateAntinodePoints(two, xMax, yMax)
+	points := one.FindAllPointsOnGridLine(two, xMax, yMax)
 	testutils.ExpectToMatchInt(t, len(points), 6)
 
 	testutils.ExpectToMatchString(t, fmt.Sprintf("[%d,%d]", points[0].X, points[0].Y), "[6,0]")
