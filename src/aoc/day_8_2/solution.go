@@ -14,7 +14,6 @@ func Solve(
 	yMax := len(grid.Coordinates) - 1
 	xMax := len(grid.Coordinates[0]) - 1
 	for _, coordinatesForType := range grid.Antennas {
-		// fmt.Printf("\nChecking antennas: %s", antennaType)
 		for i := 0; i < len(coordinatesForType); i++ {
 			for j := 0; j < len(coordinatesForType); j++ {
 				// don't check self
