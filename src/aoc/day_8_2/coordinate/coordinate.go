@@ -2,7 +2,6 @@ package coordinate
 
 import (
 	"fmt"
-	"math"
 )
 
 var purple = "\033[35m" // Purple
@@ -57,27 +56,10 @@ func (coord *Coordinate) HasAntenna() bool {
 	return string(coord.AntennaType) != ""
 }
 
-func greatestCommonDivisor(a, b int) int {
-	for b != 0 {
-		remainder := a % b
-		a = b
-		b = remainder
-	}
-	// When b becomes 0, a is the GCD
-	return a
-}
-
 func (coord *Coordinate) CalculateAntinodePoints(other *Coordinate, yMax int, xMax int) []Coordinate {
 	var points []Coordinate
 
 	distance := coord.getDistanceVector(other, 1)
-
-	// Normalize the direction vector
-	g := greatestCommonDivisor(int(math.Abs(float64(distance.X))), int(math.Abs(float64(distance.Y))))
-	if g != 0 {
-		distance.X /= g
-		distance.Y /= g
-	}
 
 	// start at negativeX to push the start backwards, and loop until max of grid
 	for i := -coord.X; i <= xMax-coord.X; i++ {
