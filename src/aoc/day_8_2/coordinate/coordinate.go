@@ -65,9 +65,7 @@ func (coord *Coordinate) CalculateAntinodePoints(other *Coordinate, yMax int, xM
 	for i := -coord.X; i <= xMax-coord.X; i++ {
 		x := coord.X + distance.X*i
 		y := coord.Y + distance.Y*i
-		if x >= 0 && x <= xMax && y >= 0 && y <= yMax {
-			points = append(points, Coordinate{X: x, Y: y})
-		}
+		points = append(points, Coordinate{X: x, Y: y})
 	}
 	return points
 }
