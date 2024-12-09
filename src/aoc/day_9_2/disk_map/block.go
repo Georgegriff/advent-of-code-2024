@@ -6,7 +6,7 @@ import (
 )
 
 type Block struct {
-	File *File
+	File *BlockFile
 }
 
 func (b Block) String() string {
@@ -18,8 +18,9 @@ func (b Block) String() string {
 
 func MakeFileBlocks(id int, size int) []*Block {
 	blocks := make([]*Block, size)
-	file := &File{
-		Id: id,
+	file := &BlockFile{
+		Id:   id,
+		Size: size,
 	}
 	for i := 0; i < size; i++ {
 		blocks[i] = &Block{
@@ -29,10 +30,11 @@ func MakeFileBlocks(id int, size int) []*Block {
 	return blocks
 }
 
-func MakeEmptyBlocks(size int) []*Block {
+func MakeEmptyBlocks(size int, spaceOffset int, om *OrderedSet[int]) []*Block {
 	blocks := make([]*Block, size)
 	for i := 0; i < size; i++ {
 		blocks[i] = &Block{}
+		om.Add(spaceOffset + i)
 	}
 	return blocks
 }
@@ -41,10 +43,11 @@ func (b *Block) isEmpty() bool {
 	return b.File == nil
 }
 
-type File struct {
-	Id int
+type BlockFile struct {
+	Id   int
+	Size int
 }
 
-func (f File) String() string {
+func (f BlockFile) String() string {
 	return colors.PrintColor(fmt.Sprint(f.Id), colors.PURPLE)
 }

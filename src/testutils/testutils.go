@@ -19,3 +19,9 @@ func ExpectToMatchBool(t *testing.T, actual bool, expected bool) {
 		t.Errorf("got %t, wanted %t", actual, expected)
 	}
 }
+
+func ExpectToErrorNil(t *testing.T, actual error) {
+	if actual != nil {
+		t.Errorf("did not expected error, got %e", actual)
+	}
+}
