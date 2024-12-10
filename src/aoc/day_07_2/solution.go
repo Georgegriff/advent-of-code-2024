@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc/src/aoc/day_7_2/equation"
+	"aoc/src/aoc/day_07_2/equation"
 	"aoc/src/aoc/readfile"
 	"fmt"
 	"log"

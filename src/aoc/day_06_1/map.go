@@ -4,6 +4,7 @@ import (
 	"aoc/src/aoc/readfile"
 	"fmt"
 	"log"
+	"regexp"
 	"strings"
 )
 
@@ -23,6 +24,27 @@ var green = "\033[32m"  // Green
 var red = "\033[31m"    // Red
 var yellow = "\033[33m" // Yellow
 var reset = "\033[0m"   // Reset
+
+func (m Map) GoString() string {
+	mapPrinter := ""
+	for i, row := range m.coordinates {
+		for _, coord := range row {
+			if coord.Obstacle {
+				mapPrinter += "#"
+			} else if coord.Guard != nil {
+				mapPrinter += fmt.Sprintf("%#v", coord.Guard)
+			} else if coord.Visited {
+				mapPrinter += "X"
+			} else {
+				mapPrinter += "."
+			}
+		}
+		if i != len(m.coordinates)-1 {
+			mapPrinter += "\n"
+		}
+	}
+	return mapPrinter
+}
 
 func (m Map) String() string {
 	mapPrinter := "\n"
@@ -133,4 +155,9 @@ const (
 
 func (d VisitDirection) String() string {
 	return [...]string{"HORIZONTAL", "VERTICAL", "BOTH"}[d]
+}
+
+func stripColors(input string) string {
+	re := regexp.MustCompile(`\x1b\[[0-9;]*m`)
+	return re.ReplaceAllString(input, "")
 }

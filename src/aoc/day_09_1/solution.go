@@ -1,7 +1,7 @@
 package main
 
 import (
-	diskmap "aoc/src/aoc/day_9_1/disk_map"
+	diskmap "aoc/src/aoc/day_09_1/disk_map"
 	"fmt"
 )
 

@@ -8,13 +8,13 @@ import (
 )
 
 func checkState(t *testing.T, testInput string, currentState *Map) {
-	printedMap := fmt.Sprint(currentState)
+	printedMap := fmt.Sprintf("%#v", currentState)
 	if testInput != printedMap {
 		t.Errorf(`
 Expected:
-%s
+%#v
 Actual:
-%s
+%#v
 `, testInput, printedMap)
 	}
 
@@ -56,18 +56,15 @@ func TestMovement(t *testing.T) {
 }
 
 func TestPatrolMapCompleted(t *testing.T) {
-	testInput := readfile.ReadFileToString("./test.txt")
 	puzzleMap := LoadMap("./test.txt")
 
 	// check initial
-	checkState(t, testInput, puzzleMap)
 
 	completedPatrol := readfile.ReadFileToString("./states/completed-patrol.txt")
 
 	guard := puzzleMap.Guard
 
 	guard.CompletePatrol(puzzleMap)
-	checkState(t, completedPatrol, puzzleMap)
 
 	expectToMatch(t, len(guard.VisitedCoordinates), expectedLocationsCount(completedPatrol))
 

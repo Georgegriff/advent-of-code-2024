@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc/src/aoc/day_8_1/grid"
+	"aoc/src/aoc/day_08_1/grid"
 	"fmt"
 )
 

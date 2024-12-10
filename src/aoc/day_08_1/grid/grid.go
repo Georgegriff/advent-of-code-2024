@@ -1,7 +1,7 @@
 package grid
 
 import (
-	"aoc/src/aoc/day_8_1/coordinate"
+	"aoc/src/aoc/day_08_1/coordinate"
 	"aoc/src/aoc/readfile"
 	"fmt"
 	"log"

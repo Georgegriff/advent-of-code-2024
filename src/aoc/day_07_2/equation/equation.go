@@ -1,7 +1,7 @@
 package equation
 
 import (
-	"aoc/src/aoc/day_7_2/permutation"
+	"aoc/src/aoc/day_07_2/permutation"
 	"aoc/src/aoc/utils"
 )
 

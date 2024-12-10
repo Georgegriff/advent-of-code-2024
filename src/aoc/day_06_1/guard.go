@@ -104,6 +104,10 @@ func (g Guard) String() string {
 	return fmt.Sprint(g.Direction)
 }
 
+func (g Guard) GoString() string {
+	return fmt.Sprintf("%#v", g.Direction)
+}
+
 func (g *Guard) visit(c *Coordinate) {
 	currentPosition := g.Position
 	if currentPosition != nil {
@@ -155,6 +159,21 @@ func (d GuardDirection) String() string {
 		return "\u2193" // →
 	case WEST:
 		return "\u2190" // ←
+	default:
+		return "[INVALID]"
+	}
+}
+
+func (d GuardDirection) GoString() string {
+	switch d {
+	case NORTH:
+		return "^"
+	case EAST:
+		return ">"
+	case SOUTH:
+		return "V"
+	case WEST:
+		return "<"
 	default:
 		return "[INVALID]"
 	}
