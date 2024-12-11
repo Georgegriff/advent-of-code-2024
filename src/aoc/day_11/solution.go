@@ -8,20 +8,15 @@ import (
 
 func Solve(
 	path string,
+	iterations int,
 ) int {
 	input := readfile.ReadFileToString(path)
-	iterations := 75
-	evolutionState := evolution.Evolution{
-		Stones: input,
-	}
-	for i := 0; i < iterations; i++ {
-		evolutionState = evolutionState.Evolve()
-	}
+	initialState := evolution.MakeEvolution(input, nil)
 
-	return evolutionState.CountStones()
+	return initialState.Evolve(iterations).CountStones()
 
 }
 
 func main() {
-	fmt.Printf("\nThe answer is %#v\n", Solve("./input.txt"))
+	fmt.Printf("\nThe answer is %#v\n", Solve("./input.txt", 75))
 }

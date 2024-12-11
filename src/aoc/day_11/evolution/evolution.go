@@ -6,8 +6,24 @@ import (
 	"strings"
 )
 
+type StoneMap = map[string]int
 type Evolution struct {
-	Stones string
+	Stones   string
+	StoneMap StoneMap
+}
+
+func MakeEvolution(Stones string, stoneMap StoneMap) *Evolution {
+	if stoneMap == nil {
+		stoneMap = make(StoneMap)
+		stones := strings.Split(Stones, " ")
+		for _, stone := range stones {
+			stoneMap[stone]++
+		}
+	}
+	return &Evolution{
+		Stones:   Stones,
+		StoneMap: stoneMap,
+	}
 }
 
 func (e Evolution) String() string {
@@ -15,24 +31,44 @@ func (e Evolution) String() string {
 }
 
 func (e *Evolution) CountStones() int {
-	return len(strings.Split(e.Stones, " "))
-}
-
-func (e *Evolution) Evolve() Evolution {
-
-	return Evolution{
-		Stones: evolveStones(e.Stones),
-	}
-}
-
-func evolveStones(stonesInput string) string {
-	stones := strings.Split(stonesInput, " ")
-	stoneBuilder := []string{}
-	for _, stone := range stones {
-		stoneBuilder = append(stoneBuilder, evolveStone(stone)...)
+	sum := 0
+	for _, v := range e.StoneMap {
+		sum += v
 	}
 
-	return strings.Join(stoneBuilder, " ")
+	return sum
+}
+
+func (e *Evolution) Evolve(iterations int) *Evolution {
+
+	stoneMap := e.evolveStones(iterations)
+	stones := make([]string, len(stoneMap))
+	i := 0
+	for k := range stoneMap {
+		stones[i] = k
+		i++
+	}
+	return MakeEvolution(
+		strings.Join(stones, " "),
+		stoneMap,
+	)
+}
+
+func (e *Evolution) evolveStones(iterations int) StoneMap {
+	stoneMap := e.StoneMap
+	var evolution []string
+	for i := 0; i < iterations; i++ {
+		newIterationMap := make(StoneMap)
+		for stone, count := range stoneMap {
+			evolution = evolveStone(stone)
+			for _, result := range evolution {
+				newIterationMap[result] += count
+			}
+		}
+		stoneMap = newIterationMap
+	}
+
+	return stoneMap
 }
 
 func evolveStone(stone string) []string {
