@@ -15,6 +15,14 @@ func ToInt(num string) int {
 	return i
 }
 
+func ToInt64(num string) int64 {
+	i, err := strconv.ParseInt(num, 10, 64)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return i
+}
+
 func StringInSlice(s string, arr []string) bool {
 	for _, v := range arr {
 		if v == s {
