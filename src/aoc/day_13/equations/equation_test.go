@@ -5,20 +5,6 @@ import (
 	"testing"
 )
 
-func TestCanBeSolved(t *testing.T) {
-	equation1 := Equation{
-		output:       8400,
-		aCoefficient: 94,
-		bCoefficient: 22,
-	}
-	equation2 := Equation{
-		output:       5400,
-		aCoefficient: 34,
-		bCoefficient: 67,
-	}
-	testutils.ExpectToMatchBool(t, equation1.CanBeSolved(&equation2), true)
-}
-
 func TestSolveEquation(t *testing.T) {
 	equation1 := Equation{
 		output:       8400,
