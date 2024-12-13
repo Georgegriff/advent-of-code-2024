@@ -103,6 +103,7 @@ func LoadGarden(path string) *Garden {
 	plots := [][]*Plot{}
 	regionTypes := []RegionType{}
 	regions := []*Region{}
+
 	err := readfile.ReadLine(file, func(line string) error {
 		positionOnLine := strings.Split(line, "")
 
