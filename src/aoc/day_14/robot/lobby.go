@@ -1,6 +1,7 @@
 package robot
 
 import (
+	"aoc/src/aoc/colors"
 	"aoc/src/aoc/readfile"
 	"aoc/src/aoc/utils"
 	"fmt"
@@ -49,6 +50,28 @@ func (l Lobby) String() string {
 				printer += fmt.Sprint(len(robotsAt))
 			} else {
 				printer += "."
+			}
+		}
+		if y != l.YSize-1 {
+			printer += "\n"
+		}
+	}
+	return printer
+}
+
+func (l Lobby) GoString() string {
+	printer := "\n"
+	for y := 0; y < l.YSize; y++ {
+		for x := 0; x < l.XSize; x++ {
+			coordinate := Coordinate{
+				X: x,
+				Y: y,
+			}
+			robotsAt := l.RobotPositions[fmt.Sprint(coordinate)]
+			if len(robotsAt) > 0 {
+				printer += colors.PrintColor(fmt.Sprint(len(robotsAt)), colors.GREEN)
+			} else {
+				printer += colors.PrintColor(".", colors.RED)
 			}
 		}
 		if y != l.YSize-1 {
@@ -125,6 +148,16 @@ func (l *Lobby) CalculateSafetyFactor() int {
 		}
 	}
 	return sum
+}
+
+func (l *Lobby) AllUnique() bool {
+	for _, robotPos := range l.RobotPositions {
+		if len(robotPos) != 1 {
+			return false
+		}
+	}
+
+	return true
 }
 
 func LoadLobby(path string, XSize int, YSize int) *Lobby {
