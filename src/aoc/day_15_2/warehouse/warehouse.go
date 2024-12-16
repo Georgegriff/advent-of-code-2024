@@ -165,6 +165,51 @@ func MakeNewPosition(direction RobotDirection, current *Position, positions [][]
 	return row[newX]
 }
 
+func SortBoxesByDirection(boxes []*Box, direction RobotDirection) {
+	switch direction {
+	case NORTH:
+		slices.SortFunc(boxes, func(a, b *Box) int {
+			if a.start.Y < b.start.Y {
+				return -1
+			}
+			if a.start.Y > b.start.Y {
+				return 1
+			}
+			return 0
+		})
+	case EAST:
+		slices.SortFunc(boxes, func(a, b *Box) int {
+			if a.start.X > b.start.X {
+				return -1
+			}
+			if a.start.X < b.start.X {
+				return 1
+			}
+			return 0
+		})
+	case SOUTH:
+		slices.SortFunc(boxes, func(a, b *Box) int {
+			if a.start.Y > b.start.Y {
+				return -1
+			}
+			if a.start.Y < b.start.Y {
+				return 1
+			}
+			return 0
+		})
+	case WEST:
+		slices.SortFunc(boxes, func(a, b *Box) int {
+			if a.start.X < b.start.X {
+				return -1
+			}
+			if a.start.X > b.start.X {
+				return 1
+			}
+			return 0
+		})
+	}
+}
+
 func (r *Robot) moveInDirection(direction RobotDirection, positions [][]*Position) {
 	newPosition := MakeNewPosition(direction, r.Position, positions)
 	if newPosition == nil {
@@ -182,9 +227,10 @@ func (r *Robot) moveInDirection(direction RobotDirection, positions [][]*Positio
 		// figure out if all the connected boxes can be moved
 		boxesToMove, canMoveBoxes := r.canMoveBoxes(direction, newPosition, positions)
 		if canMoveBoxes && len(boxesToMove) > 0 {
-			// Move boxes in reverse order
-			for i := len(boxesToMove) - 1; i >= 0; i-- {
-				box := boxesToMove[i]
+			// Sort boxes based on direction
+			SortBoxesByDirection(boxesToMove, direction)
+			// Move boxes in sorted order
+			for _, box := range boxesToMove {
 				startPositionNext := MakeNewPosition(direction, box.start, positions)
 				endPositionNext := MakeNewPosition(direction, box.end, positions)
 				box.updatePosition(startPositionNext, endPositionNext)
