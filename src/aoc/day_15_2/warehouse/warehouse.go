@@ -1,11 +1,13 @@
 package warehouse
 
 import (
+	"aoc/src/aoc/colors"
 	"aoc/src/aoc/readfile"
 	"fmt"
 	"log"
 	"slices"
 	"strings"
+	"time"
 )
 
 const ROBOT = "@"
@@ -92,7 +94,8 @@ func (w *Wall) GetType() string {
 }
 
 func (w Wall) String() string {
-	return w.GetType()
+	return colors.PrintColor("\U000025A3", colors.RED)
+	// return "\U0001F7EB"
 }
 
 func MakeWall(start *Position, end *Position) *Wall {
@@ -118,7 +121,8 @@ func (b *Robot) GetType() string {
 }
 
 func (r Robot) String() string {
-	return r.GetType()
+	return colors.PrintColor(fmt.Sprint(r.GetDirection()), colors.GREEN)
+	// return "\U0001F916"
 }
 
 func (r *Robot) GetDirection() RobotDirection {
@@ -374,13 +378,13 @@ const (
 func (d RobotDirection) String() string {
 	switch d {
 	case NORTH:
-		return "^"
+		return "\u2191" // ↑
 	case EAST:
-		return ">"
+		return "\u2192" // ↓
 	case SOUTH:
-		return "V"
+		return "\u2193" // →
 	case WEST:
-		return "<"
+		return "\u2190" // ←
 	default:
 		return "[INVALID]"
 	}
@@ -431,16 +435,19 @@ func (w Warehouse) String() string {
 			if position.entity != nil {
 				if box, ok := position.entity.(*Box); ok {
 					if box.start == position {
-						warehousePrinter += "["
+						warehousePrinter += "\U0001F4E6"
 					} else {
-						warehousePrinter += "]"
+						// warehousePrinter += " "
+						// warehousePrinter += colors.PrintColor("]", colors.YELLOW)
 					}
 				} else {
 					warehousePrinter += fmt.Sprint(position.entity)
 				}
 
 			} else {
+				// warehousePrinter += "\U00003030"
 				warehousePrinter += "."
+
 			}
 		}
 		if i != len(w.positions)-1 {
@@ -451,9 +458,17 @@ func (w Warehouse) String() string {
 }
 
 func (w *Warehouse) Next() bool {
-
+	time.Sleep(50 * time.Millisecond)
+	w.MoveCursorUp()
+	fmt.Print(w)
 	isFinished := w.robot.Move(w.positions)
 	return isFinished
+}
+
+func (m *Warehouse) MoveCursorUp() {
+	for i := 0; i < len(m.positions); i++ {
+		fmt.Print("\033[A\033[K") // Move up one line and clear it
+	}
 }
 
 func (w *Warehouse) Process() {

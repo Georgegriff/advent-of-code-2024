@@ -10,8 +10,11 @@ func Solve(
 
 ) int {
 	warehouse := warehouse.LoadWarehouse(path, 2)
+	fmt.Print(warehouse)
 
 	warehouse.Process()
+	warehouse.MoveCursorUp()
+	fmt.Print(warehouse)
 	return warehouse.GetGPSSum()
 }
 
