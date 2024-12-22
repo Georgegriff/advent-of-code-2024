@@ -25,3 +25,9 @@ func ExpectToErrorNil(t *testing.T, actual error) {
 		t.Errorf("did not expected error, got %e", actual)
 	}
 }
+
+func ExpectToBeNil(t *testing.T, actual any) {
+	if actual != nil {
+		t.Errorf("was not nil, got %e", actual)
+	}
+}
