@@ -163,11 +163,11 @@ func GetNextDirection(curr *Coordinate, next *Coordinate) Direction {
 func (m *Maze) BuildGraph() *dijkstra.Graph {
 	graph := dijkstra.MakeGraph()
 	visited := make(map[string]bool)
-	m.findPaths(m.Start, m.startDirection, visited, graph)
+	m.findEdges(m.Start, m.startDirection, visited, graph)
 	return graph
 }
 
-func (m *Maze) findPaths(current *Coordinate, currentDirection Direction, visited map[string]bool, graph *dijkstra.Graph) {
+func (m *Maze) findEdges(current *Coordinate, currentDirection Direction, visited map[string]bool, graph *dijkstra.Graph) {
 	if current == nil || current.isWall || current.isEnd {
 		return
 	}
@@ -194,7 +194,7 @@ func (m *Maze) findPaths(current *Coordinate, currentDirection Direction, visite
 			graph.AddEdge(currentKey, nextNode, 1)
 
 		}
-		m.findPaths(next, direction, visited, graph)
+		m.findEdges(next, direction, visited, graph)
 	}
 
 }
